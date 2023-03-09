@@ -1,0 +1,25 @@
+##CREATE A STORE/DATABASE WITH 15 ITEMS IN IT
+CREATE TABLE store (id INTEGER PRIMARY KEY, item TEXT,make TEXT, model TEXT, price INTEGER);
+
+##INSERT EACH ROW WITH PRIMARY KEY FIRST (MUST BE UNIQUE), THEN MAKE, FOLLOWED BY MODEL and LASTLY THE PRICE OF THE ITEM
+INSERT INTO store VALUES (1, "Mountain Bike", "Boss", "Vogue", 157);
+INSERT INTO store VALUES (2, "Racing Bike", "Fantom", "Racer", 1024);
+INSERT INTO store VALUES (3, "Mountain Bike", "Bush", "Tracker", 325);
+INSERT INTO store VALUES (4, "Push Bike", "Stroller", "Happy Baby", 398);
+INSERT INTO store VALUES (5, "Tricycle", "Max", "Wheeler", 654);
+INSERT INTO store VALUES (6, "Racing Bike", "Fantom", "Cruiser", 821);
+INSERT INTO store VALUES (7, "Quad Bike", "Alpha", "Bruizer", 543);
+INSERT INTO store VALUES (8, "Quad Bike", "Charlie", "Rev", 573);
+INSERT INTO store VALUES (9, "Tricycle", "Ranger", "Up", 573);
+INSERT INTO store VALUES (10, "Racing Bike", "Custom", "Atlantic", 236);
+INSERT INTO store VALUES (11, "Racing Bike", "Custom", "Indian", 936);
+INSERT INTO store VALUES (12, "Racing Bike", "Fantom", "Harlum", 230);
+INSERT INTO store VALUES (13, "Mountain Bike", "Executive", "Model X", 540);
+INSERT INTO store VALUES (14, "Mountain Bike", "Executive", "Model Y", 740);
+INSERT INTO store VALUES (15, "Mountain Bike", "Executive", "Model Z", 987);
+
+##ARRANGE THE ITEMS FROM CHEAPEST TO MOST EXPENSIVE
+SELECT item, model, price from store WHERE price >=0 ORDER BY price;
+
+##COUNT THE TOTAL AMOUNT OF PRODUCTS FOR SALE IN THE STORE
+SELECT COUNT(item) FROM store  
