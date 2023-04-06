@@ -387,6 +387,9 @@ SELECT COUNT(*), Military_Branch FROM astronauts GROUP by Military_Branch;
 /*Show the number of individuals in each Group Number and the corresponding year.*/
 SELECT COUNT(Name) AS Number_In_Group, GroupNum, Year FROM astronauts GROUP BY GroupNum;
 
+/*Calculate the average space flight hours and round it off.*/
+SELECT ROUND(AVG(Space_Flight_hr)) AS AVG_Space_Flight_hr FROM astronauts;
+
 /*Show each Astronaut & the number of Space Flights he has done. If he completed 1 or less, create a new column that gives his status "Flying NOT so High". If he completed 2 flights, "Flying High" and anyone that did more than 2 is seen as a "Rocket Man"    */
 SELECT Name, Space_Flights,
    CASE
@@ -401,7 +404,7 @@ SELECT Name, Space_Flights, Space_Flight_hr
 FROM astronauts
 WHERE Space_Flights >4 AND Space_Walks >4 OR Space_Flight_hr >10000;
 
-/*Show how many Astronautsbare Male and Female  */
+/*Show how many Astronauts are Male and Female*/
 SELECT Gender, COUNT(Name) AS Gender_Number
 FROM astronauts
 WHERE Space_Flights >=4
@@ -410,6 +413,6 @@ GROUP BY Gender;
 /*Show how many Females came from the US Navyand still serving*/
 SELECT COUNT(Gender) AS Number_In_Service, Military_Branch
 FROM astronauts
-WHERE Gender = "Female"
+WHERE Gender = "Female" AND Status = "Active"
 GROUP BY Military_Branch
 HAVING Military_Branch = "US Navy";
