@@ -1,0 +1,58 @@
+/*In this project, you’re going to make your own table with some small set of “famous people”, then make more tables about things they do and join those to create nice human readable lists.*/
+
+/*Created a table called FamousPeople - Containing Unique ID, FirstName, LastName & DOB. This table would hold all actors names and DOB*/
+CREATE TABLE FamousPeople (id INTEGER PRIMARY KEY, 
+  FirstName TEXT,
+  LastName TEXT,
+  DOB TEXT,
+  Gender Text);
+
+/*Insert the data into the table called FamousPeople as defined*/
+INSERT INTO FamousPeople (id, FirstName, LastName, DOB, Gender)
+ VALUES (1, "John", "Travolta", "18/02/1954", "Male");
+INSERT INTO FamousPeople (id, FirstName, LastName, DOB, Gender)
+ VALUES (2, "Bruce", "Willis", "19/03/1955", "Male");
+INSERT INTO FamousPeople (id, FirstName, LastName, DOB, Gender)
+ VALUES (3, "Halle", "Berry", "14/08/1966", "Female");
+INSERT INTO FamousPeople (id, FirstName, LastName, DOB, Gender)
+ VALUES (4, "Hugh", "Jackman", "12/10/1968", "Male");
+INSERT INTO FamousPeople (id, FirstName, LastName, DOB, Gender)
+ VALUES (5, "Samuel L", "Jackson", "21/12/1948", "Male");
+INSERT INTO FamousPeople (id, FirstName, LastName, DOB, Gender)
+ VALUES (6, "Uma", "Thurman", "29/04/1970", "Female");
+INSERT INTO FamousPeople (id, FirstName, LastName, DOB, Gender)
+ VALUES (7, "John", "Doe", "12/10/1968", "Male");
+
+/*Created a second table called Movies - Containing Unique ID, Title & Year. This would serve as a table that can hold all movie titles and the year they were released*/
+CREATE TABLE Movies (id INTEGER PRIMARY KEY,      Title TEXT,
+  Year INTEGER,
+  ActorID INTEGER);
+
+/*Inserted data into the table called Movies. Each row has a unique ID, Title of the movie, the year the movie was released & ActorID for actors that played in the film*/
+INSERT INTO Movies (id, Title, Year, ActorID)
+ VALUES (1, "Swordfish", 2001, 1);
+INSERT INTO Movies (id, Title, Year, ActorID)
+ VALUES (2, "Swordfish", 2001, 3);
+INSERT INTO Movies (id, Title, Year, ActorID)
+ VALUES (3, "Swordfish", 2001, 4);
+INSERT INTO Movies (id, Title, Year, ActorID)
+ VALUES (4, "Pulp Fiction", 1994, 1);
+INSERT INTO Movies (id, Title, Year, ActorID)
+ VALUES (5, "Pulp Fiction", 1994, 2);
+INSERT INTO Movies (id, Title, Year, ActorID)
+ VALUES (6, "Pulp Fiction", 1994, 5);
+INSERT INTO Movies (id, Title, Year, ActorID)
+ VALUES (7, "Pulp Fiction", 1994, 6);
+INSERT INTO Movies (id, Title, Year, ActorID)
+ VALUES (8, "Die Hard with a Vengeance", 1995, 2);
+INSERT INTO Movies (id, Title, Year, ActorID)
+ VALUES (9, "Die Hard with a Vengeance", 1995, 5);
+INSERT INTO Movies (id, Title, Year, ActorID)
+ VALUES (10, "X-Men", 2000, 3);
+INSERT INTO Movies (id, Title, Year, ActorID)
+ VALUES (11, "X-Men", 2000, 4);
+
+/*Select the First Name and Last Name of each Actor in the FamousPeople DB and show what movies he played in. This was done by a LEFT OUTER JOIN on the FamousPeople DB as there are Actors who hasn't played in any movies yet. The two DB (FamousPeople & Movies) were connected (JOIN) on the FamousPeople DB ID colmn and Movies DB ActorID colmn as there is a relationship*/
+SELECT FamousPeople.FirstName, FamousPeople.LastName, Movies.Title AS Movie_Title FROM FamousPeople
+     LEFT OUTER JOIN Movies
+     ON Movies.ActorID = FamousPeople.id;
