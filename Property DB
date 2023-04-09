@@ -1,0 +1,30 @@
+/* What does the app's SQL look like? */
+CREATE TABLE Property (id INTEGER PRIMARY KEY, 
+  AskingPrice INTEGER,
+  StreetName TEXT,
+  HouseNumber TEXT,
+  PostCode TEXT,
+  Area TEXT);
+  
+INSERT INTO Property (id, AskingPrice, StreetName, HouseNumber, PostCode, Area)
+ VALUES (1, 120000, "Hope Street", "1/4", "EH12 7HB", "Edinburgh");
+INSERT INTO Property (id, AskingPrice, StreetName, HouseNumber, PostCode, Area)
+ VALUES (2, 90000, "Arnold Street", "16", "G1 7HB", "Glasgow");
+INSERT INTO Property (id, AskingPrice, StreetName, HouseNumber, PostCode, Area)
+ VALUES (3, 159000, "Spring Avenue", "54", "ML5 7HB", "Motherwell");
+INSERT INTO Property (id, AskingPrice, StreetName, HouseNumber, PostCode, Area)
+ VALUES (4, 112000, "Graham Avenue", "12", "IV2 7HB", "Inverness");
+INSERT INTO Property (id, AskingPrice, StreetName, HouseNumber, PostCode, Area)
+ VALUES (5, 270000, "Grace Street", "97", "EH4 7HB", "Edinburgh");
+
+SELECT * FROM Property;
+
+/*Update a row to show a reduction in price*/
+UPDATE Property SET AskingPrice = 119000 WHERE id = 1;
+
+SELECT * FROM Property;
+
+/*Delete a row as the property is no longer on the market.*/
+DELETE FROM Property WHERE id = 3;
+
+SELECT * FROM Property;
