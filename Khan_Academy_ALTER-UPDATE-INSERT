@@ -1,0 +1,29 @@
+CREATE TABLE clothes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    type TEXT,
+    design TEXT);
+    
+INSERT INTO clothes (type, design)
+    VALUES ("dress", "pink polka dots");
+INSERT INTO clothes (type, design)
+    VALUES ("pants", "rainbow tie-dye");
+INSERT INTO clothes (type, design)
+    VALUES ("blazer", "black sequin");
+
+/*Adding a colmn into the table called price. All previous rows would have had no data so we populated it with "Unknown". All future records will have the price added.*/
+ALTER TABLE clothes ADD price INTEGER default "Unknown";
+
+Select * FROM clothes;
+
+/*We updated the previous records by using the unique ID to set the price.*/
+UPDATE clothes SET price = 10 WHERE id = 1;
+UPDATE clothes SET price = 20 WHERE id = 2;
+UPDATE clothes SET price = 30 WHERE id = 3;
+
+Select * FROM clothes;
+
+/*A new row was added to the table*/
+INSERT INTO clothes (type, design, price)
+    VALUES ("jumper", "blue stripe", 40);
+
+Select * FROM clothes;
