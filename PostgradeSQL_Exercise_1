@@ -1,0 +1,72 @@
+## Example query (PostgreSQL)
+## SELECT * FROM "CharlotteChaze/BreakIntoTech"."netflix_people";
+
+## Tips:
+## (*) Table names containing punctuation, capitalization, or spaces should be
+##     quoted, e.g. "Test Data.csv".
+## (*) Add more data by using the Upload Data button.
+## (*) Create additional schemas for namespacing your tables, e.g. "CREATE SCHEMA my_schema;".
+## (*) When querying tables created outside of the public (default) schema,
+##     be sure to specify the desired schema, e.g. "SELECT * FROM my_schema."my data.csv";".
+
+## Test query to the database
+SELECT * FROM "CharlotteChaze/BreakIntoTech"."netflix_people";
+
+## Joining two tables (renaminging each table) and carrying out a query on the data
+
+SELECT
+title.type,
+people.cast,
+title.title,
+title.release_year
+FROM "CharlotteChaze/BreakIntoTech"."netflix_people" people
+LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" title
+ON people.show_id=title.show_id ;
+
+##Count the amount of Movies in the database = 6131
+
+SELECT
+COUNT(title.type)
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" title
+WHERE type='Movie' ;
+
+##Showing when the most recent batch of TV Shows or Movies have been added using ORDER BY and DESC operator
+
+SELECT
+title.date_added
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" title
+ORDER BY title.date_added DESC;
+
+## Or a diffrent way to solve the query is
+##The previous output provided some rows that had no data and we needed to scroll further down to find the most recent date. The next query carries out a similar check but do not return any lines where there is no data and only gives us the MAX date in the table
+
+SELECT
+MAX(date(title.date_added))
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" title
+ORDER BY title.date_added DESC;
+
+## Sort the title colmn to show all TV Shows & Movies in Alphabetical order
+
+SELECT
+title.title
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" title
+ORDER BY title.title ASC;
+
+## Aggregated the two tables as data had relationship. Filtered the DB on the title of the movie to indicate who the director was Jane Campiom
+
+SELECT
+people.director
+FROM "CharlotteChaze/BreakIntoTech"."netflix_people" people
+LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" title
+ON people.show_id=title.show_id
+WHERE title.title = 'Bright Star';
+
+## Finding the olders Movie by searching the Type colmn where it states "Movie" and sording it ASC. The year was 1942 and the movie was "The Battle of Midway" & "Prelude of War"
+
+SELECT
+title.title,
+title.release_year,
+title.type
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" title
+WHERE title.type = 'Movie'
+ORDER BY title.release_year ;
