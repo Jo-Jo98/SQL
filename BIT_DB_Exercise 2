@@ -1,0 +1,92 @@
+## 1. How many orders were placed in January? - 9681
+## We counted the number of orderID's in the JanSales table but knew that there were some data that was incomplete. To get a true number of sales, we 
+## filtered out any OrderID that was longer than 6 characters or where it has 'Order ID' inside the OrderID colmn. We could have have dropped the AND 
+## statement as 'Order ID' is more than 6 characters but through it good to add as an example. 
+
+SELECT COUNT(orderID) FROM BIT_DB.JanSales
+WHERE length(orderid) = 6
+AND orderid <> 'Order ID';
+
+## 2. How many of those orders were for an iPhone? - 379
+## We carried out a count on the amount of orderID's where the Product colmn matched "iPhone". We opted to also display the Product name but this can be 
+## removed by removing Product from the initial SELECT statement.
+
+SELECT COUNT(orderID), Product FROM BIT_DB.JanSales
+WHERE length(orderid) = 6
+AND Product = "iPhone";
+
+## 3. Select the customer account numbers for all the orders that were placed in February.
+## We used a LEFT OUTER JOIN to aggregate the Customers and FebSales tables. We renamed each table for ease of use 
+
+SELECT acctnum
+FROM BIT_DB.customers Customer
+LEFT OUTER JOIN BIT_DB.FebSales FebSales
+ON Customer.order_id = FebSales.orderID
+WHERE length(order_id) = 6;
+
+## 4. Which product was the cheapest one sold in January, and what was the price? AAA Batteries (4 Pack) @ 2.99
+## We selected both the Product and Price from the JanSales table but filtered it on Price by using the MIN operator to show the lowest number in the
+## price colmn.
+
+SELECT Product, 
+MIN(price)
+FROM BIT_DB.JanSales
+GROUP BY Product, Price;
+
+## 5. What is the total revenue for each product sold in January? (Revenue can be calculated using the number of products sold and the price of the 
+## products).
+## We used the GROUP BY operator to group each product while the SUM operator is used to calculate the total amount of products in each group. We then 
+## multiply each groups quantity with its respective product price which gives us the product Revenue.
+
+SELECT SUM(Quantity)*price as Total_Revenue,
+Product
+FROM BIT_DB.JanSales
+GROUP BY Product;
+
+## 6. Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+## The first query that was ran provide us with all the products that were sold to the address in Feb. Used a wildcard with the address as the 
+## initial search did produce any results.
+## 2 x (4 Pack) AAA Batteries were ordered at a cost of 3.84 each
+
+SELECT * 
+FROM BIT_DB.FebSales
+WHERE location LIKE '548 Lincoln%';
+
+##The question also asked what was the total Revenue for the property. Total Revenue for the property over Feb was 7.68. 
+
+SELECT Quantity, Product,
+SUM(Quantity)*price as Total_Revenue
+FROM BIT_DB.FebSales
+WHERE location LIKE '548 Lincoln%'
+GROUP BY Product;
+
+## 7. How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
+## We joined the FebSales & Customer tables (on the orderID colmn of each) as we required the Customer Account Number (from Customers Table) and Quantity
+## (from FebSales). TRo get the average spent, we took the quantity of products and multiplied it with the price which gave us the Average Spent. We 
+## used the COUNT function to count all the unique customer account numbers. We specified set criteria as we did not want any records that did not have 
+## an account number shorter or longer than 6 characters or if the recorded stated 'Order ID'. We also only wanted recordes where the Quantity was more
+## than 2. The answer we received was 278 customers ordered more than 2 products with an average spent of 13.8279... We could have used the ROUND function 
+## which would have given us 14 (As indicated on the example below)
+
+select  
+AVG(FebSales.Quantity*price) as avg_spent,
+COUNT(distinct Customers.acctnum) AS Num_Of_Cust_Ordered_More_Than_2
+FROM BIT_DB.customers Customers
+LEFT OUTER JOIN BIT_DB.FebSales FebSales
+ON Customers.order_id = FebSales.orderID
+WHERE length(Customers.order_id) = 6 
+AND order_id <> 'Order ID'
+AND FebSales.Quantity > 2;
+
+## Using ROUND Function
+
+select  
+ROUND(AVG(FebSales.Quantity*price)) as avg_spent,
+COUNT(distinct Customers.acctnum) AS Num_Of_Cust_Ordered_More_Than_2
+FROM BIT_DB.customers Customers
+LEFT OUTER JOIN BIT_DB.FebSales FebSales
+ON Customers.order_id = FebSales.orderID
+WHERE length(Customers.order_id) = 6 
+AND order_id <> 'Order ID'
+AND FebSales.Quantity > 2;
+
