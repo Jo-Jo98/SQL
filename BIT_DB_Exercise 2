@@ -124,6 +124,8 @@ WHERE Product like '%headphone%'
 GROUP BY Product;
 
 ## 11. What was the average amount spent per account in February?
+## Joined Customer and FebSales tables on OrderID. Filtered out all bad data rows and carried out a SUM operator once Quantity was multiplied by the price.
+## The total SUM was then devided by the total amount of customers account numbers after the COUNT operation was completed. 
 
 SELECT SUM(Quantity*Price)/COUNT(Cust.acctnum)
 FROM BIT_DB.FebSales Feb
@@ -131,3 +133,28 @@ LEFT JOIN BIT_DB.customers Cust
 ON Feb.orderID=Cust.order_id
 WHERE length(order_id) = 6 
 AND order_id <> 'Order ID';
+
+## 12. What was the average quantity of products purchased per account in February?
+## Same as the previous query, we connected the two tables (Customers & FebSales) on the orderID column. We filtered out all rows that have bad data by using
+## the WHERE statements. We calculated the total sum of quantity sold but also counted the total amount of account numbers. The sum of quantity was then 
+## devided by the total amount of account numbers. 
+
+SELECT SUM(Feb.Quantity)/COUNT(Cust.acctnum) AS AVG_Quantity
+FROM BIT_DB.FebSales Feb
+LEFT JOIN BIT_DB.customers Cust
+ON Feb.orderID=Cust.order_id
+WHERE length(order_id) = 6 
+AND order_id <> 'Order ID';
+
+## 13. Which product brought in the most revenue in January and how much revenue did it bring in total?
+## Using the JanSales table, we filtered out any bad data rows with the WHERE clause. If there is no name in the product column, the row will be ignored. 
+## We grouped all the diffrent products together and counted the total amount of quantity for each product, multiplied it with the product price and 
+## rounded it off. We renamed the column as Total_Revenue and ordered the column in Descending order.   
+
+SELECT Product,
+ROUND(COUNT(Quantity)*Price) AS Total_Revenue
+FROM BIT_DB.JanSales
+WHERE Product <> ''
+GROUP BY Product
+ORDER BY Total_Revenue DESC;
+
