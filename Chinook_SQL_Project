@@ -117,3 +117,28 @@ JOIN chinook.genres genre
 ON track.GenreId = genre.GenreId
 
 ## 13. Show the total sales made by each sales agent.
+
+SELECT employ.FirstName,
+employ.LastName,
+COUNT(invoice.CustomerId) AS Total_Sales
+FROM chinook.invoices invoice
+LEFT JOIN chinook.customers cus
+ON invoice.CustomerId = cus.CustomerId
+JOIN chinook.employees employ
+ON cus.SupportRepId = employ.EmployeeId
+GROUP BY employ.FirstName;
+
+## 14. Which sales agent made the most dollars in sales in 2009?
+
+SELECT 
+ROUND(SUM(invoice.Total)) AS Sales_Value,
+employ.FirstName,
+employ.LastName
+FROM chinook.invoices invoice
+LEFT JOIN chinook.customers cus
+ON invoice.CustomerId = cus.CustomerId
+JOIN chinook.employees employ
+ON cus.SupportRepId = employ.EmployeeId
+WHERE InvoiceDate LIKE '%2009%'
+GROUP BY employ.FirstName
+ORDER BY Sales_Value DESC;
